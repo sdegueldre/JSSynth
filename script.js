@@ -64,3 +64,6 @@ function bindSound(ctx, note, freqMult){
   note.addEventListener('mouseup', note.stop);
   note.addEventListener('mouseout', note.stop);
 }
+
+
+/* useless comment for a test */
