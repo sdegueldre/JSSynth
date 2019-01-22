@@ -24,11 +24,11 @@ body {
   flex-direction: row;
 }
 
-.whites > div {
+.whites > .note {
   width: 1.5rem;
   height: 5rem;
   background-color: white;
-  margin: 1px;
+  border: 1px solid dimgray;
 }
 
 .blacks {
@@ -37,6 +37,7 @@ body {
   display: flex;
   flex-direction: row;
   top: 0;
+  pointer-events: none;
 }
 
 .blacks > div {
@@ -44,6 +45,7 @@ body {
   height: 2.5rem;
   background-color: black;
   margin: 0 calc(0.25rem + 1px);
+  pointer-events: all;
 }
 
 .blacks > .blank {
