@@ -67,4 +67,3 @@ function bindSound(ctx, note, freqMult){
 
 
 /* useless comment for a test */
-/* other useless comment */
