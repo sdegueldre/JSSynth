@@ -1,8 +1,51 @@
+html {
+  font-size: 19px;
+}
+
 body {
     background-color: dimgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
 .synth {
   display: flex;
   flex-direction: row;
+}
+
+.octave {
+  position: relative;
+}
+
+.whites {
+  display: flex;
+  flex-direction: row;
+}
+
+.whites > div {
+  width: 1.5rem;
+  height: 5rem;
+  background-color: white;
+  margin: 1px;
+}
+
+.blacks {
+  margin-left: calc(0.75rem + 1px);
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  top: 0;
+}
+
+.blacks > div {
+  width: 1rem;
+  height: 2.5rem;
+  background-color: black;
+  margin: 0 calc(0.25rem + 1px);
+}
+
+.blacks > .blank {
+  opacity: 0;
 }
