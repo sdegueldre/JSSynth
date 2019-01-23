@@ -18,46 +18,63 @@ window.addEventListener('load', () => {
   let octave = document.querySelector('.octave');
   let synth = document.querySelector('.synth');
 
-  for(let i = 0; i < 3; i++){
+  for(let i = 0; i < 5; i++){
     let newOctave = octave.cloneNode(true);
     synth.appendChild(newOctave);
   }
 
-  let ctx = new window.AudioContext();
-  console.log(synth);
-  let octaves = [...synth.querySelectorAll('.octave')];
-  console.log(octaves);
-  for(let octave of octaves){
-    let notes = [...octave.querySelectorAll('.note')];
-    console.log(notes);
-    for(let note of notes){
-      bindSound(ctx, note, octaves.indexOf(octave)+3);
+  let ctx;
+  window.addEventListener('mousedown', (e) => {
+    if(typeof ctx == 'undefined'){
+      ctx = new window.AudioContext();
+      let octaves = [...synth.querySelectorAll('.octave')];
+      for(let octave of octaves){
+        let notes = [...octave.querySelectorAll('.note')];
+        for(let note of notes){
+          bindSound(ctx, note, octaves.indexOf(octave)+2);
+        }
+      }
     }
-  }
+  });
 });
-
-function playNote(ctx, freq){
-  let osc = ctx.createOscillator();
-  osc.frequency.setValueAtTime(freq, ctx.currentTime);
-  osc.connect(ctx.destination);
-  osc.start();
-  return osc;
-}
 
 function bindSound(ctx, note, freqMult){
   let freq = baseFreqs[note.classList[0]]*2**freqMult;
+  let gain = ctx.createGain();
+  gain.connect(ctx.destination);
+  gain.gain.setValueAtTime(0, ctx.currentTime);
+
+
+  let osc = ctx.createOscillator();
+  osc.frequency.setValueAtTime(freq, ctx.currentTime);
+  osc.connect(gain);
+  osc.start();
+
+  note.playing = false;
+
   note.play = () => {
-    console.log('playing ' + note.classList[0]);
-    note.osc = playNote(ctx, freq);
+    if(!note.playing){
+      gain.gain.cancelScheduledValues(ctx.currentTime);
+      gain.gain.setTargetAtTime(1, ctx.currentTime, 0.03);
+      note.playing = true;
+    }
   }
 
   note.stop = () => {
-    if(note.osc){
-      note.osc.stop(ctx.currentTime);
+    if(note.playing){
+      gain.gain.cancelScheduledValues(ctx.currentTime);
+      gain.gain.setTargetAtTime(0, ctx.currentTime, 0.03);
+      note.playing = false;
     }
   }
-  note.addEventListener('mousedown', note.play);
+
+  note.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    if(e.buttons & 1)
+      note.play();
+  });
   note.addEventListener('mouseover', (e) => {
+    e.preventDefault();
     if(e.buttons & 1)
       note.play();
   })

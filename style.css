@@ -28,11 +28,12 @@ body {
   width: 1.5rem;
   height: 5rem;
   background-color: white;
-  border: 1px solid dimgray;
+  border: 0.05rem solid dimgray;
+  border-radius: 0.2rem;
 }
 
 .blacks {
-  margin-left: calc(0.75rem + 1px);
+  margin-left: calc(0.75rem + 0.05rem);
   position: absolute;
   display: flex;
   flex-direction: row;
@@ -44,10 +45,12 @@ body {
   width: 1rem;
   height: 2.5rem;
   background-color: black;
-  margin: 0 calc(0.25rem + 1px);
+  margin: 0 calc(0.25rem + 0.05rem);
+  border-radius: 0.1rem;
   pointer-events: all;
 }
 
 .blacks > .blank {
   opacity: 0;
+  pointer-events: none;
 }
